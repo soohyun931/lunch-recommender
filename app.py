@@ -93,12 +93,7 @@ def search_restaurants(location, menu, size=3):
         res.raise_for_status()
         data = res.json()
         return data.get("documents", [])
-    except Exception as e:
-        st.error(f"카카오 API 호출 에러: {e}")
-        try:
-            st.write("응답 내용:", res.text)
-        except Exception:
-            pass
+    except Exception:
         return []
 
 
