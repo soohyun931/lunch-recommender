@@ -57,6 +57,13 @@ def add_history(menu):
     save_history(history)
 
 
+def remove_history_entry(index):
+    history = load_history()
+    if 0 <= index < len(history):
+        history.pop(index)
+        save_history(history)
+
+
 # ----------------------------
 # 추천 로직
 # ----------------------------
@@ -153,8 +160,22 @@ if location == "" and "last_recommendation" in st.session_state:
 st.divider()
 st.subheader("최근 먹은 메뉴 기록")
 history = load_history()
-recent = get_recent_menus(history)
-if recent:
-    st.write(", ".join(recent))
+cutoff = datetime.now() - timedelta(days=RECENT_DAYS)
+
+recent_entries = [
+    (i, item) for i, item in enumerate(history)
+    if datetime.fromisoformat(item["date"]) >= cutoff
+]
+
+if recent_entries:
+    for original_index, item in recent_entries:
+        col1, col2 = st.columns([4, 1])
+        with col1:
+            date_str = datetime.fromisoformat(item["date"]).strftime("%m/%d")
+            st.write(f"{item['menu']} ({date_str})")
+        with col2:
+            if st.button("삭제", key=f"del_{original_index}"):
+                remove_history_entry(original_index)
+                st.rerun()
 else:
     st.write("아직 기록된 메뉴가 없어요.")
