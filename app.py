@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 # ----------------------------
 # 기본 설정
 # ----------------------------
-st.set_page_config(page_title="점메추/저메추", page_icon="🍱")
+st.set_page_config(page_title="오늘 뭐 먹지", page_icon="🍱")
 
 HISTORY_FILE = "history.json"
 RECENT_DAYS = 7  # 최근 며칠간 먹은 메뉴는 추천에서 제외할지
@@ -100,7 +100,7 @@ def search_restaurants(location, menu, size=3):
 # ----------------------------
 # 화면(UI)
 # ----------------------------
-st.title("🍱 점메추 / 저메추")
+st.title("🍱 오늘 뭐 먹지")
 st.caption("최근에 먹은 메뉴는 빼고, 안 먹어본 메뉴 + 근처 맛집까지 추천해드려요.")
 
 location = st.text_input("어느 지역에서 드세요? (예: 강남역, 판교역)", value="")
